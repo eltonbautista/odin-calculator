@@ -8,26 +8,37 @@ const operatorBtns = document.querySelectorAll('.math-operator');
 display.innerText = '';
 let storedOperator;
 let result;
-let firstArg = 0;
-let secondArg = 0;
+let firstArg = '';
+let secondArg = '';
 
 const operations = function() {
     const calculator = {}
-    
+
     calculator.add = function(a, b) {
         return a + b 
     };
-    calculator.subtract = function(a, b) {
+    calculator.subtract = function(b, a) {
         return a - b;
     }
     calculator.multiply = function(a, b) {
-        if (b === 0) {
-            return 1*b
-        }; 
         return (a*b);
     }
-    calculator.divide = function(a, b) {
+    calculator.divide = function(b, a) {
+        if (b === 0) {
+            return alert("lol nerd")
+        } else {
         return (a/b);
+        }
+    }
+    calculator.clear = function() {
+        display.innerText = ''
+        result;
+        firstArg = ''
+        secondArg = ''
+    }
+    calculator.decimal = function() {
+        display.innerText += '.';
+        firstArg += '.'
     }
 
     return calculator;
@@ -38,55 +49,91 @@ const operationPusher = function() {
     const push = {}
 
     push.addPush = function() {
-        result = operations.add(Number(firstArg), Number(secondArg));
-        secondArg = firstArg
+        if (typeof(firstArg) === 'string' && typeof(secondArg) === 'number') {
+            operate();
+        secondArg = Number(firstArg)
         firstArg = 0;
         display.innerText += '+';
-        storedOperator = operations.add;
-        return result;
+        storedOperator = operations.add
+        } else {
+        secondArg = Number(firstArg)
+        firstArg = 0;
+        display.innerText += '+';
+        storedOperator = operations.add
+        }
     }
     push.subtractPush = function() {
-        result = operations.subtract(Number(firstArg), Number(secondArg));
-        secondArg = firstArg
+        if (typeof(firstArg) === 'string' && typeof(secondArg) === 'number') {
+            operate();
+        secondArg = Number(firstArg)
         firstArg = 0;
         display.innerText += '-';
-        storedOperator = operations.subtract;
-        return result;
+        storedOperator = operations.subtract
+        } else {
+        secondArg = Number(firstArg)
+        firstArg = 0;
+        display.innerText += '-';
+        storedOperator = operations.subtract
+        }
     }
     push.multiplyPush = function() {
-        result = operations.multiply(Number(firstArg), Number(secondArg));
-        secondArg = firstArg
+        if (typeof(firstArg) === 'string' && typeof(secondArg) === 'number') {
+            operate();
+        secondArg = Number(firstArg)
         firstArg = 0;
         display.innerText += 'x';
-        storedOperator = operations.multiply;
-        return result;
+        storedOperator = operations.multiply
+        } else {
+        secondArg = Number(firstArg)
+        firstArg = 0;
+        display.innerText += 'x';
+        storedOperator = operations.multiply
+        }
     }
     push.dividePush = function() {
-        result = operations.divide(Number(firstArg), Number(secondArg));
-        secondArg = firstArg
+        if (typeof(firstArg) === 'string' && typeof(secondArg) === 'number') {
+            operate();
+        secondArg = Number(firstArg)
         firstArg = 0;
         display.innerText += '÷';
-        storedOperator = operations.divide;
-        return result;
+        storedOperator = operations.divide
+        } else {
+        secondArg = Number(firstArg)
+        firstArg = 0;
+        display.innerText += '÷'
+        storedOperator = operations.divide
+        }
     }; 
     return push;
 }();
 
 const operate = function() {
-    display.innerText = ''
-    result = storedOperator(Number(secondArg), Number(firstArg))
-    display.innerText = result;
+    if (typeof(firstArg) === 'string' && typeof(secondArg) === 'string') {
+        alert('hit clear nerd')
+    } else {
+    result = storedOperator(Number(firstArg), Number(secondArg))
+    display.innerText = Math.round(result);
     secondArg = 0;
     firstArg = result;
     return result;
-    //return secondArg = result;
+    }
 }
 
 
 for (const number of numberBtns) {
     number.addEventListener('click', function(e) {
+        if (display.innerText === '0') {
+            operations.clear();
+            display.innerText += number.innerText
+            return firstArg += number.innerText
+        }
+        if (typeof(result) === 'number' && secondArg === 0 && typeof(firstArg === 'string')) {
+            display.innerText += number.innerText;
+            //firstArg += number.innerText;
+        } else {
         display.innerText += number.innerText
         return firstArg += number.innerText
+        }
     })
 }
 
@@ -96,6 +143,8 @@ const subtractButton = document.querySelector('.operator-subtract').addEventList
 const multiplyButton = document.querySelector('.operator-multiply').addEventListener('click', operationPusher.multiplyPush)
 const divideButton = document.querySelector('.operator-divide').addEventListener('click', operationPusher.dividePush);
 const equalsButton = document.querySelector('.operator-equals').addEventListener('click', operate);
+const clearButton = document.querySelector('.operator-clear').addEventListener('click', operations.clear)
+const decimalButton = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal)
 /*
 const oneButton = document.querySelector('.number-one').addEventListener('click', numbers.one);
 const twoButton = document.querySelector('.number-two').addEventListener('click', numbers.two);

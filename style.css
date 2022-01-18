@@ -54,6 +54,7 @@ body {
 }
 
 button {
+    border: solid black 3px;
     width: 3em;
     height: 3em;
     font-size: 20px;
