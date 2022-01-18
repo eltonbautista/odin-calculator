@@ -8,7 +8,7 @@ body {
 #container {
     display: flex;
     flex-direction: column;
-    width: 30em;
+    width: 25em;
     height: 30em;
     background-color: aqua;
     align-items: center;
