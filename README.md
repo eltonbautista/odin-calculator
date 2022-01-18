@@ -4,3 +4,10 @@ This project puts utilizes everything learned so far in the Foundations Path of 
 1. HTML 
 2. CSS: Styling, flexbox, etc.
 3. JavaScript: Data types, functions, objects, high-order function methods, etc. 
+
+Extra resources I used to learn things: 
+
+https://gomakethings.com/public-vs.-private-functions-in-javascript/
+https://flaviocopes.com/add-click-event-to-dom-list/
+https://cssgradient.io/
+

@@ -25,7 +25,9 @@ const operations = function() {
     }
     calculator.divide = function(b, a) {
         if (b === 0) {
-            return alert("lol nerd")
+            alert("lol nerd")
+            operations.clear()
+            display.innerText = 'nerd ass'
         } else {
         return (a/b);
         }
@@ -35,6 +37,7 @@ const operations = function() {
         result;
         firstArg = ''
         secondArg = ''
+        const resetDecimal = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal, {once: true});
     }
     calculator.decimal = function() {
         display.innerText += '.';
@@ -49,24 +52,32 @@ const operate = function() {
         operations.clear()
     } else if(typeof(firstArg) === 'string' && typeof(secondArg) === 'string' && result !== undefined) {
         operations.clear()
-    } else {result = storedOperator(Number(firstArg), Number(secondArg))
-        if (result > 100**100000 || Number(display.innerText).toPrecision(5) > 10) {
+    } else {
+        result = storedOperator(Number(firstArg), Number(secondArg));
+        if(typeof result === 'number') {
+        if(Number(result.toFixed(3)) < Number(result.toFixed(8))) {
+            display.innerText = result.toFixed(5);
+        secondArg = 0;
+        firstArg = result;
+        return result;
+        } else if(Number(result.toFixed(2)) < Number(result.toFixed(8))) {
             display.innerText = result.toFixed(3);
         secondArg = 0;
         firstArg = result;
         return result;
         } else {
-        display.innerText = result.toFixed(5);
+        display.innerText = result.toFixed(1);
         secondArg = 0;
         firstArg = result;
         return result;
         }
     }
 }
+}
 
 for (const number of numberBtns) {
     number.addEventListener('click', function(e) {
-        if (display.innerText === '0') {
+        if (display.innerText === '0' || display.innerText === "nerd ass") {
             operations.clear();
             display.innerText += number.innerText
             return firstArg += number.innerText
@@ -94,17 +105,19 @@ for (const btn of operatorBtns) {
         firstArg = 0;
         display.innerText += btn.dataset.sign;
         storedOperator = operations[btn.dataset.operator]
+        const resetDecimal = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal, {once: true});
         } else {
         secondArg = Number(firstArg)
         firstArg = 0;
         display.innerText += btn.dataset.sign;
         storedOperator = operations[btn.dataset.operator]
+        const resetDecimal = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal, {once: true});
         }
     })
 }
 const equalsButton = document.querySelector('.operator-equals').addEventListener('click', operate);
 const clearButton = document.querySelector('.operator-clear').addEventListener('click', operations.clear)
-const decimalButton = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal)
+const decimalButton = document.querySelector('.operator-decimal').addEventListener('click', operations.decimal, {once: true});
 
 
 
